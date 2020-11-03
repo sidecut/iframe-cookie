@@ -12,7 +12,7 @@
     <p>Session ID is <%= sessionID %></p>
     <script>
         window.setInterval(async () => {
-            const result = await fetch("//<%= host %>/keepalive")
+            const result = await fetch("//localhost:3000/keepalive")
             console.dir(result)
         }, 5000)
     </script>

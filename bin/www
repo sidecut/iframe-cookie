@@ -12,9 +12,11 @@ var http = require("http");
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
-["localhost", process.env.CHILD_SERVER_NAME].forEach((hostname) => {
+[
+  { port: 3000, hostname: "localhost" },
+  { port: 4000, hostname: process.env.CHILD_SERVER_NAME },
+].forEach(({ port, hostname }) => {
+  app.set("port", port);
   /**
    * Create HTTP server.
    */
