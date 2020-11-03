@@ -3,7 +3,6 @@ var router = express.Router();
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  console.dir(req.cookies);
   res.render("index", {
     title: "Express",
     sessionID: req.sessionID,
@@ -11,7 +10,6 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/child", function (req, res, next) {
-  console.dir("Child cookies", req.cookies);
   res.render("child", { sessionID: req.sessionID });
 });
 
