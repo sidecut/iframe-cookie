@@ -18,9 +18,10 @@ router.get("/child", function (req, res, next) {
   });
 });
 
-router.get("/keepalive", (req, res, next) => {
+router.get("/keepalive/:source", (req, res, next) => {
   req.session.keepaliveTimestamp = Number(new Date());
   const payload = {
+    source: req.params.source,
     sessionID: req.sessionID,
     time: req.session.keepaliveTimestamp,
     expires: req.session.cookie.expires,

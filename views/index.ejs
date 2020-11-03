@@ -33,7 +33,7 @@
           } else {
             // enable the timer
             this.timerHandle = window.setInterval(() => {
-              fetch("//localhost:3000/keepalive")
+              fetch("//localhost:3000/keepalive/parent")
                 .then(response => response.json())
                 .then(data => console.dir(data))
                 .catch((error) => {
