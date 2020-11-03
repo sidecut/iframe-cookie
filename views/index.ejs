@@ -7,10 +7,46 @@
 </head>
 
 <body>
-  <h1><%= title %></h1>
-  <p>Welcome to <%= title %></p>
-  <p>Session ID is <%= sessionID %></p>
-  <iframe src="//<%= childHost %>:4000/child" frameborder="0" height="480" width="640"></iframe>
+  <div id="app">
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <p>Session ID is <%= sessionID %></p>
+    <p><button v-on:click="toggleTimer">{{ timerEnabled? "Disable" : "Enable"}} script in parent</button></p>
+    <iframe src="//<%= childHost %>:4000/child" frameborder="0" height="480" width="640"></iframe>
+  </div>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+    const toggleFeature = {
+      data() {
+        return {
+          timerHandle: null,
+          timerEnabled: false
+        }
+      },
+      methods: {
+        toggleTimer() {
+          if (this.timerEnabled) {
+            // disable the timer
+            window.clearInterval(this.timerHandle)
+            this.timerHandle = null
+            this.timerEnabled = false
+          } else {
+            // enable the timer
+            this.timerHandle = window.setInterval(() => {
+              fetch("//localhost:3000/keepalive")
+                .then(response => response.json())
+                .then(data => console.dir(data))
+                .catch((error) => {
+                  console.error('Error:', error);
+                });
+            }, 5000)
+            this.timerEnabled = true
+          }
+        }
+      },
+    }
+    Vue.createApp(toggleFeature).mount("#app")
+  </script>
 </body>
 
 </html>
