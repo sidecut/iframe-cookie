@@ -23,6 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
     secret: "91170c71ce54f767e15e61bf05b0176cdcc0b6e7b92fe350308fbcc1f41f2bb5",
+    cookie: { maxAge: Number(process.env.MAX_AGE_MS) },
   })
 );
 

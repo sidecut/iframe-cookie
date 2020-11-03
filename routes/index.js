@@ -6,12 +6,19 @@ router.get("/", function (req, res, next) {
   res.render("index", {
     title: "Express",
     sessionID: req.sessionID,
-    host: process.env.CHILD_SERVER_NAME,
+    childHost: process.env.CHILD_SERVER_NAME,
   });
 });
 
 router.get("/child", function (req, res, next) {
-  res.render("child", { sessionID: req.sessionID });
+  res.render("child", {
+    host: req.hostname,
+    sessionID: req.sessionID,
+  });
+});
+
+router.get("/keepalive", (req, res, next) => {
+  res.send(200, Number(new Date()));
 });
 
 module.exports = router;

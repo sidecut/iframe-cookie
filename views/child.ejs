@@ -10,6 +10,12 @@
 <body>
     <p>Here's the child</p>
     <p>Session ID is <%= sessionID %></p>
+    <script>
+        window.setInterval(async () => {
+            const result = await fetch("//<%= host %>/keepalive")
+            console.dir(result)
+        }, 5000)
+    </script>
 </body>
 
 </html>
