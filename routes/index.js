@@ -19,7 +19,14 @@ router.get("/child", function (req, res, next) {
 });
 
 router.get("/keepalive", (req, res, next) => {
-  res.send(200, { sessionID: session.sessionID, time: Number(new Date()) });
+  req.session.keepaliveTimestamp = Number(new Date());
+  const payload = {
+    sessionID: req.sessionID,
+    time: req.session.keepaliveTimestamp,
+    expires: req.session.cookie.expires,
+  };
+  console.dir(payload);
+  res.send(payload);
 });
 
 module.exports = router;
