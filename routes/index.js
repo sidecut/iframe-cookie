@@ -1,4 +1,5 @@
 var express = require("express");
+const session = require("express-session");
 var router = express.Router();
 
 /* GET home page. */
@@ -18,7 +19,7 @@ router.get("/child", function (req, res, next) {
 });
 
 router.get("/keepalive", (req, res, next) => {
-  res.send(200, Number(new Date()));
+  res.send(200, { sessionID: session.sessionID, time: Number(new Date()) });
 });
 
 module.exports = router;

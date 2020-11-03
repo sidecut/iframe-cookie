@@ -11,9 +11,13 @@
     <p>Here's the child</p>
     <p>Session ID is <%= sessionID %></p>
     <script>
-        window.setInterval(async () => {
-            const result = await fetch("//localhost:3000/keepalive")
-            console.dir(result)
+        window.setInterval(() => {
+            fetch("//localhost:3000/keepalive", { mode: "no-cors" })
+                .then(response => response.json())
+                .then(data => console.dir(data))
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }, 5000)
     </script>
 </body>
