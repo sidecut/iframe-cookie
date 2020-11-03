@@ -6,7 +6,7 @@ router.get("/", function (req, res, next) {
   res.render("index", {
     title: "Express",
     sessionID: req.sessionID,
-    host: req.hostname,
+    host: process.env.CHILD_SERVER_NAME,
   });
 });
 
