@@ -5,20 +5,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Child</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
 <body>
-    <p>Here's the child</p>
-    <p>Session ID is <%= sessionID %></p>
+    <div id="app" v-cloak>
+        <p>Here's the child</p>
+        <p>Session ID is <%= sessionID %></p>
+        <p><button @click="toggleClick">{{ timerEnabled ? "Disable" : "Enable"}} </button></p>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
     <script>
-        window.setInterval(() => {
-            fetch("//localhost:3000/keepalive/child")
-                .then(response => response.json())
-                .then(data => console.dir(data))
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-        }, 5000)
+        const childComponent = {
+            data() {
+                return {
+                    timerEnabled: true,
+                    timerHandle: null,
+                }
+            },
+            mounted() {
+                this.enableTimer()
+            },
+
+            methods: {
+                toggleClick() {
+                    if (this.timerEnabled) {
+                        this.disableTimer()
+                    } else {
+                        this.enableTimer()
+                    }
+                },
+                enableTimer() {
+                    this.timerHandle = window.setInterval(() => {
+                        fetch("//localhost:3000/keepalive/child")
+                            .then(response => response.json())
+                            .then(data => console.dir(data))
+                            .catch((error) => {
+                                console.error('Error:', error);
+                            });
+                    }, 5000)
+                    this.timerEnabled = true
+                },
+                disableTimer() {
+                    window.clearInterval(this.timerHandle)
+                    this.timerEnabled = false
+                },
+            }
+        }
+        Vue.createApp(childComponent).mount("#app")
     </script>
 </body>
 
